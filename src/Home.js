@@ -20,6 +20,12 @@ const Home = () => {
         { title: "Welcome party!", body: "lorem ipsum...", author: "Michael", id: 2},
         { title: "More web dev tips", body: "lorem ipsum...", author: "Aaron", id: 3}
     ]);
+
+    const handleDelete = (id)=>{
+        const newBlogs = blogs.filter(blogs => blogs.id !== id);
+        setBlogs(newBlogs);
+
+    }
     return ( 
         <div className="home">
             {/* <h2>Homepage</h2> */}
@@ -27,7 +33,7 @@ const Home = () => {
             <button onClick = { (e) => handleClick2('Joshua', e)}>Click Me Too</button>
             <button onClick = {increment}>Increment</button> 
             <p>{num1}</p> */}
-         <BlogList blogs = {blogs} title = "All Blogs!"/>
+         <BlogList blogs = {blogs} title = "All Blogs!" handleDelete = {handleDelete}/>
          <BlogList blogs = {blogs.filter((blog) => blog.author === "Tonyo")} title = "Tonyo's Blog"/>
         </div>
      );
