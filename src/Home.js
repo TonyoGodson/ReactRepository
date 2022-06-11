@@ -28,6 +28,7 @@ const Home = () => {
             <button onClick = {increment}>Increment</button> 
             <p>{num1}</p> */}
          <BlogList blogs = {blogs} title = "All Blogs!"/>
+         <BlogList blogs = {blogs.filter((blog) => blog.author === "Tonyo")} title = "Tonyo's Blog"/>
         </div>
      );
 }
