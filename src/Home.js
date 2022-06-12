@@ -26,9 +26,11 @@ const Home = () => {
         setBlogs(newBlogs);
 
     }
+    const [name, setName] = useState('Tonyo')
+
     useEffect(() =>{
             console.log("use effect run")
-    });
+    }, [name]);
     return ( 
         <div className="home">
             {/* <h2>Homepage</h2> */}
@@ -38,6 +40,8 @@ const Home = () => {
             <p>{num1}</p> */}
          <BlogList blogs = {blogs} title = "All Blogs!" handleDelete = {handleDelete}/>
          <BlogList blogs = {blogs.filter((blog) => blog.author === "Tonyo")} title = "Tonyo's Blog"/>
+         <button onClick={() => setName('Godson')}>change name</button>
+         <p>{name}</p>
         </div>
      );
 }
