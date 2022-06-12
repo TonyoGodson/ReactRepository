@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import BlogList from './BlogList';
 
 const Home = () => {
@@ -26,6 +26,9 @@ const Home = () => {
         setBlogs(newBlogs);
 
     }
+    useEffect(() =>{
+            console.log("use effect run")
+    });
     return ( 
         <div className="home">
             {/* <h2>Homepage</h2> */}
