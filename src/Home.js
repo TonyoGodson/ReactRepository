@@ -1,40 +1,39 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import BlogList from './BlogList';
 
 const Home = () => {
-    // var num1 = 0;
-    // const [num, setNum] = useState(0);
-    // const handleClick = () => {
-    //     console.log("Hello Tonyo, Welcome");
-    // }
-    // const handleClick2 = (name, e) =>{
-    //     console.log("How are you "+name, e.target);
-    // }
-    // const increment = () => {
-    //     num1 += 1;
-    //     console.log(num1)
-    //     setNum(num1)
-    // }
-    const [blogs, setBlogs] = useState([
-        { title: "My New Website", body: "lorem ipsum...", author: "Tonyo", id: 1},
-        { title: "Welcome party!", body: "lorem ipsum...", author: "Michael", id: 2},
-        { title: "More web dev tips", body: "lorem ipsum...", author: "Aaron", id: 3}
-    ]);
+    
+    const [blogs, setBlogs] = useState(null);
+    const [isPending, setIsPending] = useState(true);
+    const [error, setError] = useState(null);
 
-    const handleDelete = (id)=>{
-        const newBlogs = blogs.filter(blogs => blogs.id !== id);
-        setBlogs(newBlogs);
-
-    }
+    useEffect(() =>{
+        setTimeout(() =>{
+            fetch('http://localhost:8000/blogs')
+            .then(res =>{
+                console.log(res)
+                if(!res.ok){
+                    throw Error('could not fetch the data for that resource')
+                }
+                return res.json();
+            })
+            .then(data => {
+                setBlogs(data);
+                setIsPending(false)
+                setError(null)
+            })
+            .catch(err => {
+                setError(err.message)
+                setIsPending(false)
+            })
+        }, 1000);
+    }, []);
     return ( 
         <div className="home">
-            {/* <h2>Homepage</h2> */}
-            {/* <button onClick = {handleClick}>Click Me</button>  
-            <button onClick = { (e) => handleClick2('Joshua', e)}>Click Me Too</button>
-            <button onClick = {increment}>Increment</button> 
-            <p>{num1}</p> */}
-         <BlogList blogs = {blogs} title = "All Blogs!" handleDelete = {handleDelete}/>
-         <BlogList blogs = {blogs.filter((blog) => blog.author === "Tonyo")} title = "Tonyo's Blog"/>
+            {error && <div>{error}</div>}
+            {isPending && <div>Loading</div>}
+            {blogs && <BlogList blogs = {blogs} title = "All Blogs!"/>}
+         
         </div>
      );
 }
